@@ -6,7 +6,8 @@
 ehthumbs.db
 Thumbs.db
 
-/api/**/.idea
+.idea/
+
 /api/**/vendor
 
 /app/**/Components
