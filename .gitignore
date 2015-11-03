@@ -6,6 +6,19 @@
 ehthumbs.db
 Thumbs.db
 
-.idea
+/api/**/.idea
+/api/**/vendor
 
-/vendor
+/app/**/Components
+/app/**/packages
+/app/**/Resource.designer.cs
+/app/**/bin
+/app/**/obj
+/app/**/*.pidb
+/app/**/*.userprefs
+/app/**/*.swp
+/app/**/*.nib
+/app/**/*.suo
+/app/**/*.user
+/app/**/*.pfx
+/app/**/*_ReSharper.*/
