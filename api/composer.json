@@ -1,0 +1,18 @@
+{
+  "name": "Plutus/PlutusAPI",
+  "description": "RESTful API for your UCLL college card expenses",
+  "keywords": ["UCLL", "be.krivi"],
+  "homepage": "https://qrivi.github.io/Plutus",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kristof Victor Dewilde",
+      "email": "me@krivi.be",
+      "homepage": "http://www.krivi.be",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "slim/slim": "^2.6"
+  }
+}
