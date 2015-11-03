@@ -1,0 +1,4 @@
+# This will redirect root to /about for a clean github.io page url
+
+RewriteEngine On
+RewriteRule ^$ about [L]
