@@ -6,9 +6,11 @@
 ehthumbs.db
 Thumbs.db
 
+*.iml
 .idea/
 
 /api/**/vendor
+/api/lib/Config.php
 
 /app/**/Components
 /app/**/packages
