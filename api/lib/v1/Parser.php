@@ -41,7 +41,7 @@
                 $this->scraper->setCredentials( $this->user, $this->pass );
                 $this->scraper->fetchPage();
 
-                $result['data'] = [ $this->scraper->isUserValid() ];
+                $result['data'] = $this->scraper->isUserValid();
             }
             $this->printJSON( 'verify', $result );
         }
