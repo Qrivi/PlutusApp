@@ -33,9 +33,17 @@
                 // TODO Check whether or not nav#block-system-user-menu exists on the page (means user is logged in successfully)
             }else{
                 if( $this->user == Config::TEST_USER && $this->pass == Config::TEST_PASS )
-                    return true;
+                    return [
+                        'valid' => true,
+                        'firstName' => 'Indy',
+                        'lastName' => 'Broeckman'
+                    ];
             }
-            return false;
+            return [
+                'valid' => false,
+                'firstName' => null,
+                'lastName' => null
+            ];
         }
 
         public function getCredit(){

@@ -14,22 +14,21 @@
             $this->scraper = new Scraper();
         }
 
-        private function printJSON( $name, array $data, $extrameta = null ){
+        private function printJSON( $endpoint, array $data, $extrameta = null ){
 
             $arr = [
-                $name => [
-                    'meta'  => [
-                        'timestamp' => gmdate( 'Y-m-d\TH:i:s' ) . date( 'O' ),
-                        'studentId' => $this->user
-                    ],
-                    'error' => null,
-                    'data'  => null
-                ]
+                'error' => null,
+                'meta'  => [
+                    'endpoint'  => $endpoint,
+                    'timestamp' => gmdate( 'Y-m-d\TH:i:s' ) . date( 'O' ),
+                    'studentId' => $this->user
+                ],
+                'data'  => null
             ];
 
             if( $extrameta != null )
-                $arr[$name]['meta'] = array_merge( $arr[$name]['meta'], $extrameta );
-            $arr[$name] = array_merge( $arr[$name], $data );
+                $arr['meta'] = array_merge( $arr['meta'], $extrameta );
+            $arr = array_merge( $arr, $data );
 
             echo json_encode( $arr, JSON_PRETTY_PRINT );
             exit;
@@ -42,7 +41,7 @@
                 $this->scraper->setCredentials( $this->user, $this->pass );
                 $this->scraper->fetchPage();
 
-                $result['data'] = [ 'valid' => $this->scraper->isUserValid() ];
+                $result['data'] = [ $this->scraper->isUserValid() ];
             }
             $this->printJSON( 'verify', $result );
         }

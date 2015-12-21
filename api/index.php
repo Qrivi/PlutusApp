@@ -15,7 +15,7 @@
     $app = new \Slim\Slim();
     $http_allowed = ( PlutusAPI\Config::PRODUCTION
         ? [ 'localhost', '127.0.0.1' ]
-        : [ 'localhost', '127.0.0.1', 'krivi.be', 'labs.krivi.be' ] );
+        : [ 'localhost', '127.0.0.1', 'krivi.be', 'labs.krivi.be', '192.168.10.221' ] );
 
     $app->add( new \Slim\Middleware\HttpBasicAuthentication( [
                                                                  'path'          => '/v1',
@@ -29,14 +29,14 @@
                                                                      $auth = new PlutusAPI\Authenticator();
                                                                      $result = $auth->authenticate( $arguments['user'], $arguments['password'] );
                                                                      if( is_string( $result ) ){
-                                                                         $arguments['messageinfo'] = $result;
+                                                                         //$arguments['messageinfo'] = $result;
                                                                          return false;
                                                                      }
                                                                      return true;
                                                                  },
                                                                  'error'         => function ( $arguments ) use ( $app ){
                                                                      $response['status'] = 'error';
-                                                                     $response['message'] = $arguments['message'] . '. ' . $arguments['messageinfo'];
+                                                                     $response['message'] = $arguments['message'];
                                                                      $app->response->write( json_encode( $response, JSON_UNESCAPED_SLASHES ) );
                                                                  }
                                                              ] ) );
