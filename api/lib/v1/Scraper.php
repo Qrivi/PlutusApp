@@ -327,6 +327,114 @@
                             ]
                         ]
                     ];
+                } else if( $page == 3 ){
+                    return [
+                        [
+                            'amount'    => 1.5,
+                            'type'      => 'expense',
+                            'timestamp' => '2015-04-01T18:44:07+0100',
+                            'details'   => [
+                                'title'       => 'Drankenautomaat',
+                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                            ],
+                            'location'  => [
+                                'name' => 'UCLL Campus Gasthuisberg',
+                                'lat'  => 50.881079,
+                                'lng'  => 4.672941
+                            ]
+                        ], [
+                            'amount'    => 4.5,
+                            'type'      => 'expense',
+                            'timestamp' => '2015-03-26T18:34:07+0100',
+                            'details'   => [
+                                'title'       => 'Studentenservice',
+                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                            ],
+                            'location'  => [
+                                'name' => 'UCLL Campus Proximus',
+                                'lat'  => 50.845546,
+                                'lng'  => 4.728498
+                            ]
+                        ], [
+                            'amount'    => 25,
+                            'type'      => 'topup',
+                            'timestamp' => '2015-03-26T18:24:07+0100',
+                            'details'   => [
+                                'title'       => 'Oplaadpunt',
+                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                            ],
+                            'location'  => [
+                                'name' => 'UCLL Campus Proximus',
+                                'lat'  => 50.845546,
+                                'lng'  => 4.728498
+                            ]
+                        ], [
+                            'amount'    => .7,
+                            'type'      => 'expense',
+                            'timestamp' => '2015-03-26T18:14:07+0100',
+                            'details'   => [
+                                'title'       => 'Koffieautomaat',
+                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                            ],
+                            'location'  => [
+                                'name' => 'UCLL Campus Proximus',
+                                'lat'  => 50.845546,
+                                'lng'  => 4.728498
+                            ]
+                        ], [
+                            'amount'    => 6.1,
+                            'type'      => 'expense',
+                            'timestamp' => '2015-03-30T18:44:07+0100',
+                            'details'   => [
+                                'title'       => 'Studentenrestaurant',
+                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                            ],
+                            'location'  => [
+                                'name' => 'UCLL Campus Hertogstraat',
+                                'lat'  => 50.856518,
+                                'lng'  => 4.703312
+                            ]
+                        ], [
+                            'amount'    => 5,
+                            'type'      => 'topup',
+                            'timestamp' => '2015-02-29T18:44:07+0100',
+                            'details'   => [
+                                'title'       => 'Oplaadpunt',
+                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                            ],
+                            'location'  => [
+                                'name' => 'UCLL Campus Hertogstraat',
+                                'lat'  => 50.856518,
+                                'lng'  => 4.703312
+                            ]
+                        ], [
+                            'amount'    => .67,
+                            'type'      => 'expense',
+                            'timestamp' => '2015-02-27T18:44:07+0100',
+                            'details'   => [
+                                'title'       => 'Printer',
+                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                            ],
+                            'location'  => [
+                                'name' => 'UCLL Campus Gasthuisberg',
+                                'lat'  => 50.881079,
+                                'lng'  => 4.672941
+                            ]
+                        ], [
+                            'amount'    => 1,
+                            'type'      => 'expense',
+                            'timestamp' => '2014-12-27T17:44:07+0100',
+                            'details'   => [
+                                'title'       => 'Drankenautomaat',
+                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                            ],
+                            'location'  => [
+                                'name' => 'UCLL Campus Gasthuisberg',
+                                'lat'  => 50.881079,
+                                'lng'  => 4.672941
+                            ]
+                        ]
+                    ];
                 }else{
                     return null;
                 }
