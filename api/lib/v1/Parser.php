@@ -20,7 +20,7 @@
                 'error' => null,
                 'meta'  => [
                     'endpoint'  => $endpoint,
-                    'timestamp' => gmdate( 'Y-m-d\TH:i:s' ) . date( 'O' ),
+                    'timestamp' => date( 'Y-m-d\TH:i:sO' ),
                     'studentId' => $this->user
                 ],
                 'data'  => null
