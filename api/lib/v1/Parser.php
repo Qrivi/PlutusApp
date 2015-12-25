@@ -53,7 +53,7 @@
                 $this->scraper->setCredentials( $this->user, $this->pass );
                 $this->scraper->fetchPage();
 
-                $result['data'] = [ 'credit' => $this->scraper->getCredit() ];
+                $result['data'] = [ 'amount' => $this->scraper->getCredit() ];
             }
             $this->printJSON( 'credit', $result );
         }
