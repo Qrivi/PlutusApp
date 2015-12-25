@@ -2,7 +2,7 @@
 
 ### English
 
-Plutus offers each UCLL student or employee a fast and easy way to check the expenses and current balance of their student card, shaped as a native app for iOS, Android and Windows Phone.
+Plutus offers each UCLL student or employee a fast and easy way to check the expenses and current credit of their student card, shaped as a native app for iOS, Android and Windows Phone.
 
 [ ⇨ Learn more about the project in the wiki](https://github.com/Qrivi/Plutus/wiki/1.-About-Plutus)
 

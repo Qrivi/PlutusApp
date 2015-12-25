@@ -50,7 +50,7 @@
 
         $app->get( '/', function () use ( $app ){
 
-            echo 'valid endpoints: /balance, /verify and /transactions';
+            echo 'valid endpoints: /credit, /verify and /transactions';
         } );
 
         // verifies user credentials
@@ -60,26 +60,26 @@
             exit;
         } );
 
-        // gets the student's current balance
-        $app->post( '/balance', function () use ( $app, $api ){
+        // gets the student's current credit
+        $app->post( '/credit', function () use ( $app, $api ){
             $app->response->setStatus( 200 );
-            $api->balance();
+            $api->credit();
             exit;
         } );
 
-        // fetches the student's balance history
+        // fetches the student's credit history
         $app->post( '/transactions(/:page)', function ( $page = 1 ) use ( $app, $api ){
             $app->response->setStatus( 200 );
             $api->transactions( $page );
             exit;
         } );
 
-        // fetches the student's balance history
+        // fetches the student's credit history
         $app->post( '/transactions/topups', function () use ( $app ){
             // TODO write cool code
         } );
 
-        // fetches the student's balance history
+        // fetches the student's credit history
         $app->post( '/transactions/expenses', function () use ( $app ){
             //TODO write cool code
         } );

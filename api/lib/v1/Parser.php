@@ -46,7 +46,7 @@
             $this->printJSON( 'verify', $result );
         }
 
-        public function balance(){
+        public function credit(){
             if( $this->user == null || $this->pass == null ){
                 $result['error'] = 'Missing credentials';
             }else{
@@ -55,7 +55,7 @@
 
                 $result['data'] = [ 'credit' => $this->scraper->getCredit() ];
             }
-            $this->printJSON( 'balance', $result );
+            $this->printJSON( 'credit', $result );
         }
 
         public function transactions( $page = 1 ){
