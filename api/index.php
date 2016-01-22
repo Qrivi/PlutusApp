@@ -1,21 +1,15 @@
 <?php
-    header( 'Content-Type: application/json' );
-    header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
-    header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' ); 
-    header( 'Cache-Control: max-age=0, must-revalidate' ); 
-    header( 'Cache-Control: no-store, no-cache, must-revalidate' ); 
-    header( 'Cache-Control: post-check=0, pre-check=0', false);
-    header( 'Pragma: no-cache' );
-
     require_once './vendor/autoload.php';
     require_once './lib/Config.php';
     require_once './lib/DatabasePDO.php';
     require_once './lib/Authenticator.php';
 
     $app = new \Slim\Slim();
-    $http_allowed = ( PlutusAPI\Config::PRODUCTION
-        ? [ 'localhost', '127.0.0.1' ]
-        : [ 'localhost', '127.0.0.1', 'krivi.be', 'labs.krivi.be', '192.168.10.221' ] );
+
+    $app->add(new \SlimNoCache\SlimNoCache());
+    $app->add(new \Slim\Middleware\JwtAuthentication([
+                                                         "secret" => "supersecretkeyyoushouldnotcommittogithub"
+                                                     ]));
 
     $app->add( new \Slim\Middleware\HttpBasicAuthentication( [
                                                                  'path'          => '/v1',

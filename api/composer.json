@@ -13,7 +13,8 @@
     }
   ],
   "require": {
-    "slim/slim": "^2.6",
-    "tuupola/slim-basic-auth": "^1.0"
+    "slim/slim": "^3.0",
+    "palanik/slim-no-cache": "*",
+    "tuupola/slim-jwt-auth": "^2.0"
   }
 }

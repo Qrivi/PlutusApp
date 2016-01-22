@@ -35,8 +35,8 @@
                 if( $this->user == Config::TEST_USER && $this->pass == Config::TEST_PASS )
                     return [
                         'valid' => true,
-                        'firstName' => 'Indy',
-                        'lastName' => 'Broeckman'
+                        'firstName' => 'Benny',
+                        'lastName' => 'Echtman'
                     ];
             }
             return [
@@ -67,7 +67,7 @@
                             'timestamp' => '2015-11-28T18:44:07+0100',
                             'details'   => [
                                 'title'       => 'Drankenautomaat',
-                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                                'description' => 'Test met wat <b>bold tekst</b> :) <br>hupla nieuwe lijn!'
                             ],
                             'location'  => [
                                 'name' => 'UCLL Campus Gasthuisberg',
@@ -80,7 +80,7 @@
                             'timestamp' => '2015-11-26T18:34:07+0100',
                             'details'   => [
                                 'title'       => 'Studentenservice',
-                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                                'description' => 'Test met wat <u>onderlijnde tekst</u> :) <br>hupla nieuwe lijn!'
                             ],
                             'location'  => [
                                 'name' => 'UCLL Campus Proximus',
@@ -93,7 +93,7 @@
                             'timestamp' => '2015-11-26T18:24:07+0100',
                             'details'   => [
                                 'title'       => 'Oplaadpunt',
-                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                                'description' => 'Test met wat <i>scheve tekst</i> :) <br><br>hupla GANSE lijn!'
                             ],
                             'location'  => [
                                 'name' => 'UCLL Campus Proximus',
@@ -106,7 +106,7 @@
                             'timestamp' => '2015-11-26T18:14:07+0100',
                             'details'   => [
                                 'title'       => 'Koffieautomaat',
-                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                                'description' => 'Wat gebeurt er met hele lange strings? Wat gebeurt er met hele lange strings? Wat gebeurt er met hele lange strings? Wat gebeurt er met hele lange strings? Wat gebeurt er met hele lange strings? Wat gebeurt er met hele lange strings? Wat gebeurt er met hele lange strings? Wat gebeurt er met hele lange strings? Wat gebeurt er met hele lange strings? '
                             ],
                             'location'  => [
                                 'name' => 'UCLL Campus Proximus',
@@ -119,7 +119,7 @@
                             'timestamp' => '2015-10-30T18:44:07+0100',
                             'details'   => [
                                 'title'       => 'Studentenrestaurant',
-                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                                'description' => 'Pas op hier zit een <div>div goed</div>verstopt!'
                             ],
                             'location'  => [
                                 'name' => 'UCLL Campus Hertogstraat',
@@ -132,7 +132,7 @@
                             'timestamp' => '2015-10-29T18:44:07+0100',
                             'details'   => [
                                 'title'       => 'Oplaadpunt',
-                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                                'description' => '<ul><li>List item 1</li><li>List item 1</li><li>List item 2</li><li>List item 3</li><li>List item 69</li><li>List item 420</li></ul>'
                             ],
                             'location'  => [
                                 'name' => 'UCLL Campus Hertogstraat',
@@ -145,7 +145,7 @@
                             'timestamp' => '2015-10-27T18:44:07+0100',
                             'details'   => [
                                 'title'       => 'Printer',
-                                'description' => 'Lorem ipsum dolor sit amet (HTML is ok)'
+                                'description' => '<p>List werkt blijkbaar (nog) niet</p><p>JAmmer</p><p>Hier gebruik ik paragraph</p>'
                             ],
                             'location'  => [
                                 'name' => 'UCLL Campus Gasthuisberg',
@@ -436,7 +436,7 @@
                         ]
                     ];
                 }else{
-                    return null;
+                    return [];
                 }
             }
             return null;
