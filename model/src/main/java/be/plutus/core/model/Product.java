@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 
 @Entity
 @Table( name = "product" )
@@ -19,8 +18,7 @@ public class Product extends Identifiable{
     @Column( name = "name", unique = true )
     private String name;
 
-    @Min( value = 0, message = "{Min.Product.price}" )
-    @Column( name = "price")
+    @Column( name = "price" )
     private double price;
 
     public Product(){

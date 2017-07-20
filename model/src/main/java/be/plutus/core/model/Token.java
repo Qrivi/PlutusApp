@@ -34,7 +34,7 @@ public class Token extends Identifiable{
     @Column( name = "expiration" )
     private ZonedDateTime expirationDate;
 
-    @NotNull( message = "{NotNull.Token.status}")
+    @NotNull( message = "{NotNull.Token.status}" )
     @Enumerated( EnumType.STRING )
     @Column( name = "status" )
     private TokenStatus status;

@@ -17,45 +17,45 @@ public class Card extends Identifiable{
     @Column( name = "number", unique = true )
     private String number;
 
-    @NotNull( message = "{NotNull.Card.status}")
+    @NotNull( message = "{NotNull.Card.status}" )
     @Column( name = "status" )
     @Enumerated( EnumType.STRING )
     private CardStatus status;
 
-    @NotBlank( message = "{NotBlank.Card.name}")
+    @NotBlank( message = "{NotBlank.Card.name}" )
     @Size( max = 45, message = "{Size.Card.name}" )
     @Column( name = "name" )
     private String name;
 
-    @NotBlank( message = "{NotBlank.Card.alias}")
+    @NotBlank( message = "{NotBlank.Card.alias}" )
     @Size( max = 20, message = "{Size.Card.alias}" )
     @Column( name = "alias" )
     private String alias;
 
-    @NotNull( message = "{NotNull.Card.creationDate}")
-    @Column( name= "creation" )
+    @NotNull( message = "{NotNull.Card.creationDate}" )
+    @Column( name = "creation" )
     private LocalDateTime creationDate;
 
     @Size( max = 45, message = "{Size.Card.email}" )
-    @Column( name = "email" )
+    @Column( name = "email", unique = true )
     private String email;
 
-    @NotBlank( message = "{NotBlank.Card.hash}")
+    @NotBlank( message = "{NotBlank.Card.hash}" )
     @Size( max = 40, message = "{Size.Card.hash}" )
     @Column( name = "hash" )
     private String hash;
 
-    @NotBlank( message = "{NotBlank.Card.salt}")
+    @NotBlank( message = "{NotBlank.Card.salt}" )
     @Size( max = 40, message = "{Size.Card.salt}" )
     @Column( name = "salt" )
     private String salt;
 
-    @NotBlank( message = "{NotBlank.Card.password}")
+    @NotBlank( message = "{NotBlank.Card.password}" )
     @Size( max = 255, message = "{Size.Card.password}" )
     @Column( name = "password" )
     private String password;
 
-    @NotNull( message = "{NotNull.Card.language}")
+    @NotNull( message = "{NotNull.Card.language}" )
     @Enumerated( EnumType.STRING )
     @Column( name = "language" )
     private CardLanguage language;

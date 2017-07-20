@@ -35,6 +35,6 @@ public enum CardLanguage{
     }
 
     public Locale toLocale(){
-        return new Locale( tag );w
+        return new Locale( tag );
     }
 }
