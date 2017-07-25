@@ -12,15 +12,15 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer>{
 
-    Transaction findByTimestamp( ZonedDateTime timestamp );
+    Transaction findByCardAndTimestamp( Card card, ZonedDateTime timestamp );
 
-    Transaction findByTimestampBefore( ZonedDateTime before );
-
-    Transaction findByTimestampAfter( ZonedDateTime after );
-
-    Transaction findByTimestampBetween( ZonedDateTime after, ZonedDateTime before );
+    List<Transaction> findByTimestamp( ZonedDateTime timestamp );
 
     List<Transaction> findByCard( Card card );
 
     List<Transaction> findByLocation( Location location );
+
+    List<Transaction> findByCardAndLocation( Card card, Location location );
+
+    List<Transaction> findByCardAndTimestampBetween( Card card, ZonedDateTime after, ZonedDateTime before );
 }

@@ -4,6 +4,6 @@ public enum CardStatus{
 
     ACTIVE,     // Card exists and data was fetched
     CONFIRMED,  // Card exists and e-mail has been confirmed
-    INACTIVE,   // Card does not exist but data was previously fetched
+    UNCONFIRMED,  // Card exists but e-mail has not been confirmed
     BLOCKED     // Card was blocked for use with Plutus
 }

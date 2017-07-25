@@ -11,7 +11,7 @@ public interface CampusRepository extends JpaRepository<Campus, Integer>{
 
     Campus findByLabel( String label );
 
-    Campus findByName( String label );
+    Campus findByName( String name );
 
     List<Campus> findByCity( String city );
 }

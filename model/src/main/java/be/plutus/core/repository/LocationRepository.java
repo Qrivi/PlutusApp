@@ -12,7 +12,7 @@ public interface LocationRepository extends JpaRepository<Location, Integer>{
 
     Location findByLabel( String label );
 
-    Location findByName( String label );
+    Location findByName( String name );
 
     List<Location> findByCampus( Campus campus );
 }

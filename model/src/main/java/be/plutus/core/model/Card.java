@@ -1,16 +1,28 @@
 package be.plutus.core.model;
 
+import be.plutus.common.CryptoService;
 import be.plutus.common.Identifiable;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table( name = "card" )
 public class Card extends Identifiable{
+
+    @NotBlank( message = "{NotBlank.Card.customerId}" )
+    @Size( max = 8, message = "{Size.Card.customerId}" )
+    @Column( name = "customer_id", unique = true )
+    private String customerId;
+
+    @Size( max = 64, message = "{Size.Card.apiKey}" )
+    @Column( name = "api_key" )
+    private String apiKey;
 
     @NotBlank( message = "{NotBlank.Card.number}" )
     @Size( max = 8, message = "{Size.Card.number}" )
@@ -34,24 +46,19 @@ public class Card extends Identifiable{
 
     @NotNull( message = "{NotNull.Card.creationDate}" )
     @Column( name = "creation" )
-    private LocalDateTime creationDate;
+    private ZonedDateTime creationDate;
 
     @Size( max = 45, message = "{Size.Card.email}" )
     @Column( name = "email", unique = true )
     private String email;
 
-    @NotBlank( message = "{NotBlank.Card.hash}" )
-    @Size( max = 40, message = "{Size.Card.hash}" )
-    @Column( name = "hash" )
-    private String hash;
-
-    @NotBlank( message = "{NotBlank.Card.salt}" )
-    @Size( max = 40, message = "{Size.Card.salt}" )
-    @Column( name = "salt" )
-    private String salt;
+    @NotBlank( message = "{NotBlank.Card.uuid}" )
+    @Size( max = 36, message = "{Size.Card.uuid}" )
+    @Column( name = "uuid" )
+    private String uuid;
 
     @NotBlank( message = "{NotBlank.Card.password}" )
-    @Size( max = 255, message = "{Size.Card.password}" )
+    @Size( max = 255, message = "{Size.Card.password}" ) // TODO set better length
     @Column( name = "password" )
     private String password;
 
@@ -72,12 +79,28 @@ public class Card extends Identifiable{
     public Card(){
     }
 
+    public String getCustomerId(){
+        return customerId;
+    }
+
+    public void setCustomerId( String customerId ){
+        this.customerId = customerId;
+    }
+
+    public String getApiKey(){
+        return apiKey;
+    }
+
+    public void setApiKey( String apiKey ){
+        this.apiKey = apiKey;
+    }
+
     public String getNumber(){
         return number;
     }
 
     public void setNumber( String number ){
-        this.number = number;
+        this.number = number.toLowerCase();
     }
 
     public CardStatus getStatus(){
@@ -104,11 +127,11 @@ public class Card extends Identifiable{
         this.alias = alias;
     }
 
-    public LocalDateTime getCreationDate(){
+    public ZonedDateTime getCreationDate(){
         return creationDate;
     }
 
-    public void setCreationDate( LocalDateTime creationDate ){
+    public void setCreationDate( ZonedDateTime creationDate ){
         this.creationDate = creationDate;
     }
 
@@ -120,28 +143,29 @@ public class Card extends Identifiable{
         this.email = email;
     }
 
-    public String getHash(){
-        return hash;
+    public String getUuid(){
+        return uuid;
     }
 
-    public void setHash( String hash ){
-        this.hash = hash;
-    }
-
-    public String getSalt(){
-        return salt;
-    }
-
-    public void setSalt( String salt ){
-        this.salt = salt;
+    public void generateUuid(){
+        this.uuid = UUID.randomUUID().toString();
     }
 
     public String getPassword(){
-        return password;
+        return CryptoService.decrypt( password, uuid );
     }
 
-    public void setPassword( String password ){
-        this.password = password;
+    public void setPassword( String plainTextPassword ){
+        if( "".equals( uuid ) )
+            this.generateUuid();
+        this.password = CryptoService.encrypt( plainTextPassword, this.uuid );
+    }
+
+    public boolean isPasswordValid( String plainTextPassword ){
+        if( plainTextPassword == null || this.password == null )
+            return false;
+        return Objects.equals( this.password, CryptoService.encrypt( plainTextPassword, this.uuid ) );
+
     }
 
     public CardLanguage getLanguage(){
