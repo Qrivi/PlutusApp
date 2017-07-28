@@ -13,7 +13,7 @@ ext {
     javaxElVersion = "3.0.0"
     bCryptVersion = "0.3m"
     mysqlVersion = "5.1.38"
-    apacheCommonsversion = "1.9"
+    commonsCodecVersion = "1.9"
     springBootVersion = "1.4.2.RELEASE"
 }
 
@@ -24,6 +24,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
     compile "javax.el:javax.el-api:$javaxElVersion"
     compile "mysql:mysql-connector-java:$mysqlVersion"
+    compile "commons-codec:commons-codec:$commonsCodecVersion"
     testCompile group: "junit", name: "junit", version: "4.11"
     testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.6.2'
