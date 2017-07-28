@@ -9,6 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 public interface TransactionService{
+
     List<Transaction> getAllTransactions();
 
     List<Transaction> getTransactionsByCard( Card card );

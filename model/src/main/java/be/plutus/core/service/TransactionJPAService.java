@@ -22,36 +22,36 @@ import java.util.stream.Stream;
 @Transactional
 public class TransactionJPAService implements TransactionService{
 
-    private final TransactionRepository transactionRepository;
+    private final TransactionRepository repository;
 
     @Autowired
-    public TransactionJPAService( TransactionRepository transactionRepository ){
-        this.transactionRepository = transactionRepository;
+    public TransactionJPAService( TransactionRepository repository ){
+        this.repository = repository;
     }
 
     @Override
     public List<Transaction> getAllTransactions(){
-        return transactionRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public List<Transaction> getTransactionsByCard( Card card ){
-        return transactionRepository.findByCard( card );
+        return repository.findByCard( card );
     }
 
     @Override
     public List<Transaction> getTransactionsByLocation( Location location ){
-        return transactionRepository.findByLocation( location );
+        return repository.findByLocation( location );
     }
 
     @Override
     public List<Transaction> getTransactionsByTimestamp( ZonedDateTime timestamp ){
-        return transactionRepository.findByTimestamp( timestamp );
+        return repository.findByTimestamp( timestamp );
     }
 
     @Override
     public List<Transaction> getTransactionsByCardAndLocation( Card card, Location location ){
-        return transactionRepository.findByCardAndLocation( card, location );
+        return repository.findByCardAndLocation( card, location );
     }
 
     @Override
@@ -59,19 +59,19 @@ public class TransactionJPAService implements TransactionService{
         if( after == null ) after = DateService.now().minusYears( 5 );
         if( before == null ) before = DateService.now();
 
-        return transactionRepository.findByCardAndTimestampBetween( card, after, before );
+        return repository.findByCardAndTimestampBetween( card, after, before );
     }
 
     @Override
     public Transaction getTransactionById( Integer id ){
         if( id == null )
             throw new InvalidTransactionIdentifierException();
-        return transactionRepository.findOne( id );
+        return repository.findOne( id );
     }
 
     @Override
     public Transaction getTransactionByCardAndTimestamp( Card card, ZonedDateTime timestamp ){
-        return transactionRepository.findByCardAndTimestamp( card, timestamp );
+        return repository.findByCardAndTimestamp( card, timestamp );
     }
 
     @Override
@@ -86,7 +86,7 @@ public class TransactionJPAService implements TransactionService{
         transaction.setLocation( location );
         transaction.setProducts( products != null ? products : new ArrayList<>() );
 
-        return transactionRepository.save( transaction );
+        return repository.save( transaction );
     }
 
     @Override
@@ -95,7 +95,7 @@ public class TransactionJPAService implements TransactionService{
 
         transaction.setProducts( products );
 
-        transactionRepository.save( transaction );
+        repository.save( transaction );
     }
 
     @Override
@@ -107,7 +107,7 @@ public class TransactionJPAService implements TransactionService{
                         .collect( Collectors.toList() )
         );
 
-        transactionRepository.save( transaction );
+        repository.save( transaction );
     }
 
     @Override
@@ -116,13 +116,13 @@ public class TransactionJPAService implements TransactionService{
 
         transaction.addProduct( product );
 
-        transactionRepository.save( transaction );
+        repository.save( transaction );
     }
 
     @Override
     public void removeTransaction( int id ){
         Transaction transaction = this.getTransactionById( id );
 
-        transactionRepository.delete( transaction );
+        repository.delete( transaction );
     }
 }
