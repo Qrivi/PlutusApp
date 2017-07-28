@@ -4,6 +4,7 @@ import java.util.Locale;
 
 public enum CardLanguage{
 
+    // These are the languages the API will be available in
     EN( "en", "English", "English" ),
     NL( "nl", "Dutch", "Nederlands" ),
     DE( "de", "German", "Deutsch" ),
@@ -19,6 +20,13 @@ public enum CardLanguage{
         this.tag = tag;
         this.name = name;
         this.localName = localName;
+    }
+
+    public static CardLanguage fromTag( String tag ){
+        for( CardLanguage language : CardLanguage.values() )
+            if( language.toTag().equalsIgnoreCase( tag ) )
+                return language;
+        return null;
     }
 
     @Override

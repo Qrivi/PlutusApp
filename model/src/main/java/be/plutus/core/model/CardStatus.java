@@ -2,8 +2,8 @@ package be.plutus.core.model;
 
 public enum CardStatus{
 
-    ACTIVE,     // Card exists and data was fetched
-    CONFIRMED,  // Card exists and e-mail has been confirmed
-    UNCONFIRMED,  // Card exists but e-mail has not been confirmed
-    BLOCKED     // Card was blocked for use with Plutus
+    NEW,            // Card has just been added and transactions are still being fetched
+    ACTIVE,         // Card exists and data was fetched
+    BROKEN,         // Fetching data fails; was password changed?
+    BLOCKED         // Card was blocked for use with Plutus
 }

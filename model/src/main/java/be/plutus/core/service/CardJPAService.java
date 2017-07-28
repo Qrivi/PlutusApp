@@ -2,9 +2,9 @@ package be.plutus.core.service;
 
 import be.plutus.common.DateService;
 import be.plutus.core.exception.DuplicateCardException;
-import be.plutus.core.exception.EmailTakenException;
 import be.plutus.core.exception.InvalidCardIdentifierException;
 import be.plutus.core.model.Card;
+import be.plutus.core.model.CardEmailStatus;
 import be.plutus.core.model.CardLanguage;
 import be.plutus.core.model.CardStatus;
 import be.plutus.core.repository.CardRepository;
@@ -18,90 +18,69 @@ import java.util.List;
 @Transactional
 public class CardJPAService implements CardService{
 
-    private final CardRepository cardRepository;
+    private final CardRepository repository;
 
     @Autowired
-    public CardJPAService( CardRepository cardRepository ){
-        this.cardRepository = cardRepository;
+    public CardJPAService( CardRepository repository ){
+        this.repository = repository;
     }
 
     @Override
     public List<Card> getAllCards(){
-        return cardRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public Card getCardById( Integer id ){
         if( id == null )
             throw new InvalidCardIdentifierException();
-        return cardRepository.findOne( id );
-    }
-
-    @Override
-    public Card getCardByNumber( String number ){
-        return cardRepository.findByNumberIgnoreCase( number );
+        return repository.findOne( id );
     }
 
     @Override
     public Card getCardByEmail( String email ){
-        return cardRepository.findByEmailIgnoreCase( email );
+        return repository.findByEmailIgnoreCase( email );
     }
 
     @Override
-    public Card createCard( String customerId, String apiKey, String number, String name, String password, CardLanguage language, Double credit, Double weekSpent ){
+    public Card createCard( String name, String alias, CardLanguage language, double credit, double weekSpent ){
         Card card = new Card();
 
-        if( this.getCardByNumber( number ) != null )
-            throw new DuplicateCardException( number );
-
-        card.setCustomerId( customerId );
-        card.setApiKey( apiKey );
-        card.setNumber( number );
-        card.setStatus( CardStatus.ACTIVE );
         card.setName( name );
-        card.setCreationDate( DateService.now() );
-        card.generateUuid();
-        card.setPassword( password );
+        card.setAlias( alias );
         card.setLanguage( language );
+        card.setStatus( CardStatus.NEW );
+        card.setEmailStatus( CardEmailStatus.NOT_SET );
+        card.setCreationDate( DateService.now() );
+
+        // parameters are primitive to avoid null and potential future nullpointerexceptions
         card.setCredit( credit );
         card.setWeekSpent( weekSpent );
         card.setAlertLowCredit( -1 );
 
-        return cardRepository.save( card );
+        return repository.save( card );
     }
 
     @Override
-    public void updateCardCredentials( int id, String customerId, String apiKey, String password ){
-        Card card = this.getCardById( id );
-
-        if( customerId != null )
-            card.setCustomerId( customerId );
-        if( apiKey != null )
-            card.setApiKey( apiKey );
-        if( password != null )
-            card.setPassword( password );
-
-        cardRepository.save( card );
-    }
-
-    @Override
-    public void updateCardDetails( int id, String alias, String email, CardStatus status, CardLanguage language ){
+    public void updateCardDetails( int id, String alias, CardLanguage language, CardStatus status, CardEmailStatus emailStatus, String email ){
         Card card = this.getCardById( id );
 
         Card unique = this.getCardByEmail( email );
         if( unique != null && unique != card )
-            throw new EmailTakenException( email );
+            throw new DuplicateCardException( email );
 
         if( alias != null )
             card.setAlias( alias );
-        if( email != null )
-            card.setEmail( email );
-        if( status != null )
-            card.setStatus( status );
         if( language != null )
             card.setLanguage( language );
+        if( status != null )
+            card.setStatus( status );
+        if( emailStatus != null )
+            card.setEmailStatus( emailStatus );
+        if( email != null )
+            card.setEmail( email );
 
-        cardRepository.save( card );
+        repository.save( card );
     }
 
     @Override
@@ -113,7 +92,7 @@ public class CardJPAService implements CardService{
         if( weekSpent != null )
             card.setWeekSpent( weekSpent );
 
-        cardRepository.save( card );
+        repository.save( card );
     }
 
     @Override
@@ -123,13 +102,13 @@ public class CardJPAService implements CardService{
         if( alertLowCredit != null )
             card.setAlertLowCredit( alertLowCredit );
 
-        cardRepository.save( card );
+        repository.save( card );
     }
 
     @Override
     public void removeCard( int id ){
         Card card = this.getCardById( id );
 
-        cardRepository.delete( card );
+        repository.delete( card );
     }
 }
