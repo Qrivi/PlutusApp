@@ -1,7 +1,6 @@
 package be.plutus.core.model;
 
 import be.plutus.common.Identifiable;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -11,9 +10,11 @@ import javax.validation.constraints.NotNull;
 @Table( name = "location" )
 public class Location extends Identifiable{
 
-    @NotBlank( message = "{NotBlank.Location.label}" )
-    @Column( name = "label", unique = true )
-    private String label;
+    @Valid
+    @NotNull( message = "{NotNull.Campus.label}" )
+    @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true )
+    @JoinColumn( name = "label_id" )
+    private Label label;
 
     @Column( name = "name", unique = true )
     private String name;
@@ -27,11 +28,11 @@ public class Location extends Identifiable{
     public Location(){
     }
 
-    public String getLabel(){
+    public Label getLabel(){
         return label;
     }
 
-    public void setLabel( String label ){
+    public void setLabel( Label label ){
         this.label = label;
     }
 

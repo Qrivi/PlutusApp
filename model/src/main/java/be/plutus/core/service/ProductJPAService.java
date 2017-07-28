@@ -2,6 +2,7 @@ package be.plutus.core.service;
 
 import be.plutus.core.exception.DuplicateProductException;
 import be.plutus.core.exception.InvalidProductIdentifierException;
+import be.plutus.core.model.Label;
 import be.plutus.core.model.Product;
 import be.plutus.core.model.ProductType;
 import be.plutus.core.repository.ProductRepository;
@@ -15,16 +16,16 @@ import java.util.List;
 @Transactional
 public class ProductJPAService implements ProductService{
 
-    private final ProductRepository productRepository;
+    private final ProductRepository repository;
 
     @Autowired
-    public ProductJPAService( ProductRepository productRepository ){
-        this.productRepository = productRepository;
+    public ProductJPAService( ProductRepository repository ){
+        this.repository = repository;
     }
 
     @Override
     public List<Product> getAllProducts(){
-        return productRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
@@ -33,61 +34,49 @@ public class ProductJPAService implements ProductService{
         if( maxPrice <= 0 ) maxPrice = 9999;
 
         if( type == null )
-            return productRepository.findByPriceGreaterThanEqualAndPriceLessThanEqual( minPrice, maxPrice );
-        return productRepository.findByTypeAndPriceGreaterThanEqualAndPriceLessThanEqual( type, minPrice, maxPrice );
+            return repository.findByPriceGreaterThanEqualAndPriceLessThanEqual( minPrice, maxPrice );
+        return repository.findByTypeAndPriceGreaterThanEqualAndPriceLessThanEqual( type, minPrice, maxPrice );
     }
 
     @Override
     public Product getProductById( Integer id ){
         if( id == null )
             throw new InvalidProductIdentifierException();
-        return productRepository.findOne( id );
+        return repository.findOne( id );
     }
 
     @Override
-    public Product getProductByLabel( String label ){
-        return productRepository.findByLabel( label );
+    public Product getProductByLabel( Label label ){
+        return repository.findByLabel( label );
     }
 
     @Override
-    public Product getProductByName( String name ){
-        return productRepository.findByName( name );
-    }
-
-    @Override
-    public Product createProduct( String label, String name, Double price ){
+    public Product createProduct( Label label, Double price ){
         Product product = new Product();
 
         if( this.getProductByLabel( label ) != null )
             throw new DuplicateProductException( label );
 
         product.setLabel( label );
-        product.setName( name );
         product.setPrice( price );
 
-        return productRepository.save( product );
+        return repository.save( product );
     }
 
     @Override
-    public void updateProduct( int id, String name, Double price ){
+    public void updateProduct( int id, Double price ){
         Product product = this.getProductById( id );
 
-        Product unique = this.getProductByName( name );
-        if( unique != null && unique != product )
-            throw new DuplicateProductException( name );
-
-        if( name != null )
-            product.setName( name );
         if( price != null )
             product.setPrice( price );
 
-        productRepository.save( product );
+        repository.save( product );
     }
 
     @Override
     public void removeProduct( int id ){
         Product product = this.getProductById( id );
 
-        productRepository.delete( product );
+        repository.delete( product );
     }
 }

@@ -1,5 +1,6 @@
 package be.plutus.core.repository;
 
+import be.plutus.core.model.Label;
 import be.plutus.core.model.Product;
 import be.plutus.core.model.ProductType;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,9 +11,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer>{
 
-    Product findByLabel( String label );
-
-    Product findByName( String name );
+    Product findByLabel( Label label );
 
     List<Product> findByPriceGreaterThanEqual( double minPrice );
 

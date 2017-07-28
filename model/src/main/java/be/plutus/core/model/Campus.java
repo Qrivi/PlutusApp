@@ -1,24 +1,22 @@
 package be.plutus.core.model;
 
 import be.plutus.common.Identifiable;
-import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table( name = "campus" )
 public class Campus extends Identifiable{
 
-    @NotBlank( message = "{NotBlank.Campus.label}" )
-    @Column( name = "label", unique = true )
-    private String label;
-
-    @Column( name = "name", unique = true )
-    private String name;
+    @Valid
+    @NotNull( message = "{NotNull.Campus.label}" )
+    @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true )
+    @JoinColumn( name = "label_id" )
+    private Label label;
 
     @Min( value = -90, message = "{Min.Campus.latitude}" )
     @Max( value = 90, message = "{Max.Campus.latitude}" )
@@ -51,20 +49,12 @@ public class Campus extends Identifiable{
     public Campus(){
     }
 
-    public String getLabel(){
+    public Label getLabel(){
         return label;
     }
 
-    public void setLabel( String label ){
+    public void setLabel( Label label ){
         this.label = label;
-    }
-
-    public String getName(){
-        return name;
-    }
-
-    public void setName( String name ){
-        this.name = name;
     }
 
     public double getLatitude(){

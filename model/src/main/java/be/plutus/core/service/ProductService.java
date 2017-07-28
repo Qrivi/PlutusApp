@@ -1,5 +1,6 @@
 package be.plutus.core.service;
 
+import be.plutus.core.model.Label;
 import be.plutus.core.model.Product;
 import be.plutus.core.model.ProductType;
 
@@ -13,13 +14,11 @@ public interface ProductService{
 
     Product getProductById( Integer id );
 
-    Product getProductByLabel( String label );
+    Product getProductByLabel( Label label );
 
-    Product getProductByName( String name );
+    Product createProduct( Label label, Double price );
 
-    Product createProduct( String label, String name, Double price );
-
-    void updateProduct( int id, String name, Double price );
+    void updateProduct( int id, Double price );
 
     void removeProduct( int id );
 }

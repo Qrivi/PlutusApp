@@ -1,6 +1,7 @@
 package be.plutus.core.service;
 
 import be.plutus.core.model.Campus;
+import be.plutus.core.model.Label;
 import be.plutus.core.model.Location;
 
 import java.util.List;
@@ -13,13 +14,11 @@ public interface LocationService{
 
     Location getLocationById( Integer id );
 
-    Location getLocationByLabel( String label );
+    Location getLocationByLabel( Label label );
 
-    Location getLocationByName( String name );
+    Location createLocation( Label label, Campus campus );
 
-    Location createLocation( String label, String name, Campus campus );
-
-    void updateLocation( int id, String name, Campus campus );
+    void updateLocation( int id, Campus campus );
 
     void removeLocation( int id );
 }

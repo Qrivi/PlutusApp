@@ -3,6 +3,7 @@ package be.plutus.core.service;
 import be.plutus.core.exception.DuplicateCampusException;
 import be.plutus.core.exception.InvalidCampusIdentifierException;
 import be.plutus.core.model.Campus;
+import be.plutus.core.model.Label;
 import be.plutus.core.repository.CampusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,52 +15,43 @@ import java.util.List;
 @Transactional
 public class CampusJPAService implements CampusService{
 
-    private final CampusRepository campusRepository;
+    private final CampusRepository repository;
 
     @Autowired
-    public CampusJPAService( CampusRepository campusRepository ){
-        this.campusRepository = campusRepository;
+    public CampusJPAService( CampusRepository repository ){
+        this.repository = repository;
     }
 
     @Override
     public List<Campus> getAllCampuses(){
-        return campusRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public List<Campus> getCampusesByCity( String city ){
-        return campusRepository.findByCity( city );
+        return repository.findByCity( city );
     }
 
     @Override
     public Campus getCampusById( Integer id ){
         if( id == null )
             throw new InvalidCampusIdentifierException();
-        return campusRepository.findOne( id );
+        return repository.findOne( id );
     }
 
     @Override
-    public Campus getCampusByLabel( String label ){
-        return campusRepository.findByLabel( label );
+    public Campus getCampusByLabel( Label label ){
+        return repository.findByLabel( label );
     }
 
     @Override
-    public Campus getCampusByName( String name ){
-        return campusRepository.findByName( name );
-    }
-
-    @Override
-    public Campus createCampus( String label, String name, Double latitude, Double longitude, String address, Integer postcode, String city, String phone, String email, String website ){
+    public Campus createCampus( Label label, Double latitude, Double longitude, String address, Integer postcode, String city, String phone, String email, String website ){
         Campus campus = new Campus();
 
         if( this.getCampusByLabel( label ) != null )
             throw new DuplicateCampusException( label );
 
-        if( this.getCampusByName( name ) != null )
-            throw new DuplicateCampusException( name );
-
         campus.setLabel( label );
-        campus.setName( name );
         campus.setLatitude( latitude );
         campus.setLongitude( longitude );
         campus.setAddress( address );
@@ -69,19 +61,13 @@ public class CampusJPAService implements CampusService{
         campus.setEmail( email );
         campus.setWebsite( website );
 
-        return campusRepository.save( campus );
+        return repository.save( campus );
     }
 
     @Override
-    public void updateCampus( int id, String name, Double latitude, Double longitude, String address, Integer postcode, String city, String phone, String email, String website ){
+    public void updateCampus( int id, Double latitude, Double longitude, String address, Integer postcode, String city, String phone, String email, String website ){
         Campus campus = this.getCampusById( id );
 
-        Campus unique = this.getCampusByName( name );
-        if( unique != null && unique != campus )
-            throw new DuplicateCampusException( name );
-
-        if( name != null )
-            campus.setName( name );
         if( latitude != null )
             campus.setLatitude( latitude );
         if( longitude != null )
@@ -99,13 +85,13 @@ public class CampusJPAService implements CampusService{
         if( website != null )
             campus.setWebsite( website );
 
-        campusRepository.save( campus );
+        repository.save( campus );
     }
 
     @Override
     public void removeCampus( int id ){
         Campus campus = this.getCampusById( id );
 
-        campusRepository.delete( campus );
+        repository.delete( campus );
     }
 }
