@@ -1,3 +1,5 @@
 rootProject.name = 'app'
 include 'model'
 //include 'api'
+include 'consumer'
+

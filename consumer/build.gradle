@@ -1,0 +1,21 @@
+plugins {
+    id "java"
+    id "org.springframework.boot" version "1.4.2.RELEASE"
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    jacksonVersion = "2.8.9"
+
+    junitVersion = "4.11"
+}
+
+dependencies {
+    compile project(":model")
+    compile("org.springframework:spring-web")
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    testCompile "junit:junit:$junitVersion"
+}
