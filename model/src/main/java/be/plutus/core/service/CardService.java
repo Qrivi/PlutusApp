@@ -1,9 +1,6 @@
 package be.plutus.core.service;
 
-import be.plutus.core.model.Card;
-import be.plutus.core.model.CardEmailStatus;
-import be.plutus.core.model.CardLanguage;
-import be.plutus.core.model.CardStatus;
+import be.plutus.core.model.*;
 
 import java.util.List;
 
@@ -15,7 +12,9 @@ public interface CardService{
 
     Card getCardByEmail( String email );
 
-    Card createCard( String name, String alias, CardLanguage language, double credit, double weekSpent );
+    Card getCardByCredentials( Credentials credentials );
+
+    Card createCard( Credentials credentials, String name, String alias, CardLanguage language, double credit, double weekSpent );
 
     void updateCardDetails( int id, String alias, CardLanguage language, CardStatus status, CardEmailStatus emailStatus, String email );
 

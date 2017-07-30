@@ -1,6 +1,5 @@
 plugins {
     id "java"
-    id "org.springframework.boot" version "1.4.2.RELEASE"
 }
 
 repositories {
@@ -8,6 +7,7 @@ repositories {
 }
 
 ext {
+    springWebVersion = "4.3.10.RELEASE"
     jacksonVersion = "2.8.9"
 
     junitVersion = "4.11"
@@ -15,7 +15,7 @@ ext {
 
 dependencies {
     compile project(":model")
-    compile("org.springframework:spring-web")
+    compile "org.springframework:spring-web:$springWebVersion"
     compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
     testCompile "junit:junit:$junitVersion"
 }

@@ -3,10 +3,7 @@ package be.plutus.core.service;
 import be.plutus.common.DateService;
 import be.plutus.core.exception.DuplicateCardException;
 import be.plutus.core.exception.InvalidCardIdentifierException;
-import be.plutus.core.model.Card;
-import be.plutus.core.model.CardEmailStatus;
-import be.plutus.core.model.CardLanguage;
-import be.plutus.core.model.CardStatus;
+import be.plutus.core.model.*;
 import be.plutus.core.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,9 +40,15 @@ public class CardJPAService implements CardService{
     }
 
     @Override
-    public Card createCard( String name, String alias, CardLanguage language, double credit, double weekSpent ){
+    public Card getCardByCredentials( Credentials credentials ){
+        return repository.findByCredentials( credentials );
+    }
+
+    @Override
+    public Card createCard( Credentials credentials, String name, String alias, CardLanguage language, double credit, double weekSpent ){
         Card card = new Card();
 
+        card.setCredentials( credentials );
         card.setName( name );
         card.setAlias( alias );
         card.setLanguage( language );

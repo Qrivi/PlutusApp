@@ -3,7 +3,9 @@ package be.plutus.consumer;
 import be.plutus.common.DateService;
 import be.plutus.consumer.dto.ApiKeyDTO;
 import be.plutus.core.model.Credentials;
+import be.plutus.core.service.CredentialsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,15 +13,17 @@ import org.springframework.web.client.RestTemplate;
 public class Consumer{
 
     private final RestTemplate rest;
+    private final CredentialsService credentialsService;
 
     @Autowired
-    public Consumer( RestTemplate rest ){
+    public Consumer( RestTemplate rest, CredentialsService credentialsService ){
         this.rest = rest;
+        this.credentialsService = credentialsService;
     }
 
-    public void requestApiKey( Credentials credentials ){
-
-        Resource res = new Resource.Builder()
+    private ApiKeyDTO handleRequest( Credentials credentials ){
+        HttpHeaders headers = new HttpHeaders();
+        Resource resource = new Resource.Builder()
                 .username( credentials.getCardNumber() )
                 .password( credentials.getPassword() )
                 .locationcode( "UCLL" )
@@ -28,13 +32,20 @@ public class Consumer{
                 .UTC( DateService.unix() )
                 .build();
 
-        res.sign( credentials.getKey() );
-        
-        ApiKeyDTO dto = rest.getForObject( res.toURL(), ApiKeyDTO.class );
+        headers.set( HttpHeaders.USER_AGENT, credentials.getUserAgent() );
+        resource.sign( credentials.getKey() );
 
-        // todo
-        // Data uit dto verwerken en methode opsplitsen in case credentials niet gegeven is aka de gebruiker gebruikt
-        // de app voor de allereerste keer ooit --> er zitten geen credentials in de database.
+
+        ResponseEntity<ApiKeyDTO> response = rest.exchange(
+                resource.toURL(),
+                HttpMethod.GET,
+                new HttpEntity( headers ),
+                ApiKeyDTO.class
+        );
+
+        if( response.getStatusCode() == HttpStatus.OK )
+            return response.getBody();
+        return null;
     }
 }
 

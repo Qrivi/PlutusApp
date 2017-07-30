@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
@@ -12,6 +13,12 @@ import java.time.ZonedDateTime;
 @Entity
 @Table( name = "card" )
 public class Card extends Identifiable{
+
+    @Valid
+    @NotNull( message = "{NotNull.Card.credentials}" )
+    @OneToOne( cascade = CascadeType.ALL )
+    @JoinColumn( name = "credentials_id" )
+    private Credentials credentials;
 
     @NotBlank( message = "{NotBlank.Card.name}" )
     @Size( max = 45, message = "{Size.Card.name}" )
@@ -56,6 +63,14 @@ public class Card extends Identifiable{
     private Integer alertLowCredit;
 
     public Card(){
+    }
+
+    public Credentials getCredentials(){
+        return credentials;
+    }
+
+    public void setCredentials( Credentials credentials ){
+        this.credentials = credentials;
     }
 
     public String getName(){

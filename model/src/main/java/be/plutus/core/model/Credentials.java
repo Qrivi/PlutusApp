@@ -2,11 +2,10 @@ package be.plutus.core.model;
 
 import be.plutus.common.CryptoService;
 import be.plutus.common.Identifiable;
-import be.plutus.common.UUIDService;
+import be.plutus.common.IdentifierService;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
@@ -30,11 +29,13 @@ public class Credentials extends Identifiable{
     @Column( name = "password" )
     private String password;
 
-    @NotNull( message = "{NotNull.Credentials.customerId}" )
+    @NotNull( message = "{NotNull.Credentials.status}")
+    @Enumerated( EnumType.STRING)
+    private CredentialsStatus status;
+
     @Column( name = "customer_id", unique = true )
     private Integer customerId;
 
-    @NotBlank( message = "{NotBlank.Credentials.key}" )
     @Size( min = 64, max = 64, message = "{Size.Credentials.key}" )
     @Column( name = "key" )
     private String key;
@@ -52,12 +53,6 @@ public class Credentials extends Identifiable{
     @Column( name = "user_agent" )
     private String userAgent;
 
-    @Valid
-    @NotNull( message = "{NotNull.Credentials.card}" )
-    @OneToOne( cascade = CascadeType.ALL )
-    @JoinColumn( name = "card_id" )
-    private Card card;
-
     public Credentials(){
     }
 
@@ -74,7 +69,7 @@ public class Credentials extends Identifiable{
     }
 
     public void setPassword( String plainTextPassword ){
-        this.uuid = UUIDService.generate();
+        this.uuid = IdentifierService.generateUUID();
         this.password = CryptoService.encrypt( plainTextPassword, this.uuid );
     }
 
@@ -83,6 +78,14 @@ public class Credentials extends Identifiable{
             return false;
         return Objects.equals( this.password, CryptoService.encrypt( plainTextPassword, this.uuid ) );
 
+    }
+
+    public CredentialsStatus getStatus(){
+        return status;
+    }
+
+    public void setStatus( CredentialsStatus status ){
+        this.status = status;
     }
 
     public Integer getCustomerId(){
@@ -125,11 +128,7 @@ public class Credentials extends Identifiable{
         this.userAgent = userAgent;
     }
 
-    public Card getCard(){
-        return card;
-    }
-
-    public void setCard( Card card ){
-        this.card = card;
+    public boolean areUsable(){
+        return this.status == CredentialsStatus.CORRECT && this.key != null && this.customerId != null;
     }
 }
