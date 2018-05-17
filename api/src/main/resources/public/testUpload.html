@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>test upload</title>
+    </head>
+    <body style="margin: 20vh 0 0; text-align: center;">
+        <form method="POST" enctype="multipart/form-data" id="form">
+            Plak dit achter de url hierboven om async upload te testen:<br>
+            ?endpoint=<script>document.write(window.location.protocol + "//" + window.location.host);</script>/api/image&token=
+            <br><br>
+            <input type="file" name="file" id="file">
+            <input type="submit" value="Upload">
+        </form>
+        <script>
+            window.addEventListener( 'load', function(){
+
+                var endpoint = /endpoint=([^&]+)/.exec( window.location.href )[1];
+                var token = /token=([^&]+)/.exec( window.location.href )[1];
+
+                var file = {
+                    dom : document.getElementById( "file" ),
+                    binary : null
+                };
+
+                var reader = new FileReader();
+
+                reader.addEventListener( "load", function(){
+                    file.binary = reader.result;
+                } );
+
+                if( file.dom.files[0] ){
+                    reader.readAsBinaryString( file.dom.files[0] );
+                }
+
+                file.dom.addEventListener( "change", function(){
+                    if( reader.readyState === FileReader.LOADING ){
+                        reader.abort();
+                    }
+
+                    reader.readAsBinaryString( file.dom.files[0] );
+                } );
+
+                function sendData(){
+                    if( !file.binary && file.dom.files.length > 0 ){
+                        setTimeout( sendData, 10 );
+                        return;
+                    }
+
+                    var XHR = new XMLHttpRequest();
+                    var boundary = "blob";
+                    var data = "";
+
+                    if( file.dom.files[0] ){
+                        data += "--" + boundary + "\r\n";
+                        data += 'content-disposition: form-data; '
+                            + 'name="' + file.dom.name + '"; '
+                            + 'filename="' + file.dom.files[0].name + '"\r\n';
+                        data += 'Content-Type: ' + file.dom.files[0].type + '\r\n';
+                        data += '\r\n';
+                        data += file.binary + '\r\n';
+                    }
+                    data += "--" + boundary + "--";
+
+//                    XHR.addEventListener('load', function(event) {
+//                        alert('Yeah! Data sent and response loaded.');
+//                    });
+//
+//                    XHR.addEventListener('error', function(event) {
+//                        alert('Oups! Something goes wrong.');
+//                    });
+
+                    XHR.onreadystatechange = function(){
+                        if( XHR.readyState == XMLHttpRequest.DONE ){
+                            alert( JSON.stringify( JSON.parse( XHR.responseText ), null, 2 ) );
+                        }
+                    };
+
+                    XHR.open( 'POST', endpoint );
+                    XHR.setRequestHeader( 'X-Auth-Token', token );
+                    XHR.setRequestHeader( 'Content-Type', 'multipart/form-data; boundary=' + boundary );
+                    XHR.send( data );
+                }
+
+                var form = document.getElementById( "form" );
+                form.addEventListener( 'submit', function( event ){
+                    event.preventDefault();
+                    sendData();
+                } );
+            } );
+        </script>
+    </body>
+</html>

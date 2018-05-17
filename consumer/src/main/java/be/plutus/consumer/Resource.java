@@ -4,9 +4,6 @@ import be.plutus.common.CryptoService;
 import be.plutus.consumer.config.Config;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Resource{
 
@@ -50,10 +47,27 @@ public class Resource{
     }
 
     public String toURL(){
-        return Arrays.stream( this.getClass().getDeclaredFields() )
-                .map( Field::getName )
-                .filter( Objects::nonNull )
-                .collect( Collectors.joining( "&", endpoint.url + "?", "" ) );
+        Field[] fields = this.getClass().getDeclaredFields();
+        StringBuilder output = new StringBuilder();
+        output.append( endpoint.url );
+
+        try{
+            for( int i = 0; i < fields.length; i++ ){
+                Field field = fields[i];
+                field.setAccessible( true );
+
+                output.append( i == 0 ? "?" : "&" )
+                        .append( field.getName() )
+                        .append( "=" )
+                        .append( field.get( this ) );
+            }
+        }catch( IllegalAccessException e ){
+            e.printStackTrace();
+            return "error";
+            // I think in reality it's impossible to get here
+        }
+
+        return output.toString();
     }
 
     enum Endpoint{

@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>refresh token</title>
+        <style>
+            input, textarea{
+                width: 400px;
+            }
+            textarea{
+                min-height: 100px;
+                resize: both;
+            }
+        </style>
+    </head>
+    <body style="margin: 20vh 0 0; text-align: center;">
+        <form method="GET" enctype="multipart/form-data" id="form">
+            Refresht je token voor je op de achtergrond<br>
+            <script>document.write(window.location.protocol + "//" + window.location.host);</script>/api/auth/refresh<br>
+            <br>
+            <input placeholder="endpoint" id="endpoint" name="endpoint"><br>
+            <input placeholder="token" id="token" name="token"><br>
+            <input placeholder="interval in minuten" id="interval" name="interval" type="number" min="1"><br>
+            <input type="button" id="button" value="Refresh" onclick="refreshToken()">
+            <br><br>
+            <textarea id="output"></textarea>
+        </form>
+        <script>
+            var endpoint, token, button, interval;
+            var output = document.getElementById( "output" );
+
+            function refreshToken() {
+                endpoint = document.getElementById("endpoint");
+                token = document.getElementById("token");
+                interval = document.getElementById("interval");
+                button = document.getElementById("button");
+
+                endpoint.disabled = true;
+                token.disabled = true;
+                interval.disabled = true;
+                button.disabled = true;
+                button.value = "Refreshing every " + interval.value + " minutes...";
+
+                sendData();
+                setInterval(
+                    sendData, interval.value * 1000 * 60
+                );
+            }
+
+            function sendData(){
+                var XHR = new XMLHttpRequest();
+
+                XHR.onreadystatechange = function(){
+                    if( XHR.readyState == XMLHttpRequest.DONE ){
+                        output.innerHTML = JSON.stringify( JSON.parse( XHR.responseText ), null, 2 );
+                    }
+                };
+
+                XHR.open( 'GET', endpoint.value );
+                XHR.setRequestHeader( 'X-Auth-Token', token.value );
+                XHR.send( null );
+            }
+        </script>
+    </body>
+</html>
